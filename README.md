@@ -1,5 +1,5 @@
 <div>
-<h1 align="center">Optimize Income</h1>
+<h1 align="center">Travel Agency</h1>
 
 <h3 align="center">This README file provides instructions for setting up the project using Git and Docker  </h3>
 
