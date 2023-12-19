@@ -14,14 +14,11 @@ namespace Travel_Agency_Project.Services.Clients
         public async Task<Client?> GetClient(Guid clientId)
         {
             return await _dbContext.Client.FindAsync(clientId);
-            //return new Client();
         }
 
         public async Task<List<Client>> GetClients()
         {
-            var clients = await _dbContext.Client.ToListAsync<Client>();
-            return clients;
-            //return new List<Client>();
+            return await _dbContext.Client.ToListAsync<Client>();
         }
     }
 }

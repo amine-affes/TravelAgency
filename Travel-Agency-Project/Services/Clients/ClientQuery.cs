@@ -14,7 +14,8 @@ namespace Travel_Agency_Project.Services.Clients
                 {
                     try
                     {
-                        return clientService.GetClients();
+                        var clients = clientService.GetClients().Result;
+                        return clients;
                     }
                     catch (Exception ex)
                     {
