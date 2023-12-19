@@ -1,5 +1,5 @@
-﻿using Travel_Agency_Project.Entities.Clients;
-using Travel_Agency_Project.Entities.Products;
+﻿using Travel_Agency_API.Entities.Clients;
+using Travel_Agency_API.Entities.Products;
 
 namespace Travel_Agency_Project.Entities.Dossiers
 {
@@ -10,8 +10,8 @@ namespace Travel_Agency_Project.Entities.Dossiers
         public DateTime ArrivalDate { get; set; }
         public int Duration { get; set; }
         public string FlightNumber { get; set; }
-        public Product Product { get; set; }
-        public Client Client {  get; set; }
+        public virtual Product Product { get; set; }
+        public virtual Client Client {  get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }

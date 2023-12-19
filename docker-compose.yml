@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  # .NET Core Web API
+  web-api:
+    build:
+      context: ./Travel-Agency-API
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"
+    networks:
+      - travel-network
+
+  # .NET Core GraphQL Server
+  graphql-server:
+    build:
+      context: ./Travel-Agency-Project
+      dockerfile: Dockerfile
+    ports:
+      - "5001:8080"
+    networks:
+      - travel-network
+
+  # React App
+  react-app:
+    build:
+      context: ./TravelAgencyFront
+      dockerfile: Dockerfile
+    ports:
+      - "3000:80"
+    networks:
+      - travel-network
+
+networks:
+  travel-network:
+    driver: bridge

@@ -1,24 +1,29 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Travel_Agency_Project.Entities;
+﻿using Newtonsoft.Json;
+using System.Net.Http.Headers;
 using Travel_Agency_Project.Entities.Clients;
+using Travel_Agency_Project.Entities.Dossiers;
 
 namespace Travel_Agency_Project.Services.Clients
 {
     public class ClientService : IClientService
     {
-        private readonly Database _dbContext;
-        public ClientService(Database dbContext)
+        public async Task<Dossier?> GetClient(string name, string familyName)
         {
-            _dbContext = dbContext;
-        }
-        public async Task<Client?> GetClient(Guid clientId)
-        {
-            return await _dbContext.Client.FindAsync(clientId);
-        }
-
-        public async Task<List<Client>> GetClients()
-        {
-            return await _dbContext.Client.ToListAsync<Client>();
+            try
+            {
+                using (HttpClient clienthttp = new HttpClient())
+                {
+                    clienthttp.BaseAddress = new Uri("https://localhost:7165/GraphQL?name=" + name + "&familyName=" + familyName);
+                    clienthttp.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+                    HttpResponseMessage response = clienthttp.GetAsync("").Result;
+                    var result = JsonConvert.DeserializeObject<Dossier>(await response.Content.ReadAsStringAsync());
+                    return result;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

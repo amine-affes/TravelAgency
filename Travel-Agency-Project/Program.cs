@@ -1,8 +1,7 @@
 using GraphQL;
 using GraphQL.Types;
-using Microsoft.EntityFrameworkCore;
-using Travel_Agency_Project.Entities;
 using Travel_Agency_Project.Entities.Clients;
+using Travel_Agency_Project.Entities.Dossiers;
 using Travel_Agency_Project.Services.Clients;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,15 +12,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 
-// Add DbContext
-builder.Services.AddDbContext<Database>(options => {
-    var config = builder.Configuration;
-    var connectionString = config.GetConnectionString("database");
 
-    options.UseSqlite(connectionString);
-});
 builder.Services.AddScoped<IClientService, ClientService>();
 builder.Services.AddScoped<ClientType>();
+builder.Services.AddScoped<DossierType>();
 builder.Services.AddScoped<ClientQuery>();
 builder.Services.AddScoped<ISchema, ClientSchema>();
 builder.Services.AddGraphQL(b => b
@@ -30,16 +24,6 @@ builder.Services.AddGraphQL(b => b
 
 
 var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    // migrate database, only during development
-    using var scope = app.Services.CreateScope();
-    var db = scope.ServiceProvider.GetRequiredService<Database>();
-    await db.Database.MigrateAsync();
-    DataSeeder.SeedData(db);
-}
 
 app.UseHttpsRedirection();
 
