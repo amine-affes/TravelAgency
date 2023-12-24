@@ -1,6 +1,6 @@
 ﻿using GraphQL;
 using GraphQL.Types;
-using Travel_Agency_Project.Entities.Clients;
+using Travel_Agency_Project.Entities.Dossiers;
 
 namespace Travel_Agency_Project.Services.Clients
 {
@@ -9,22 +9,10 @@ namespace Travel_Agency_Project.Services.Clients
         [Obsolete]
         public ClientQuery(IClientService clientService)
         {
-            Field<ListGraphType<ClientType>>(Name = "Clients",
-                resolve: x =>
-                {
-                    try
-                    {
-                        var clients = clientService.GetClients().Result;
-                        return clients;
-                    }
-                    catch (Exception ex)
-                    {
-                        throw ex;
-                    }
-                });
-            Field<ListGraphType<ClientType>>(Name = "Client",
-                arguments: new QueryArguments(new QueryArgument<GuidGraphType> { Name = "id" }),
-                resolve: x => clientService.GetClient(x.GetArgument<Guid>("id")));
+            Field<ListGraphType<DossierType>>(Name = "Client",
+                arguments: new QueryArguments(new QueryArgument<StringGraphType> { Name = "name" },
+                new QueryArgument<StringGraphType> { Name = "familyName" }),
+                resolve: x => clientService.GetClient(x.GetArgument<string>("name"), x.GetArgument<string>("familyName")).Result);
         }
     }
 }

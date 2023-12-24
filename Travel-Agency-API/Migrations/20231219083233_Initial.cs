@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Travel_Agency_Project.Migrations
+namespace Travel_Agency_API.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration
@@ -15,8 +15,7 @@ namespace Travel_Agency_Project.Migrations
                 name: "Client",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     FamilyName = table.Column<string>(type: "TEXT", nullable: false),
                     Address = table.Column<string>(type: "TEXT", nullable: false),
@@ -52,7 +51,7 @@ namespace Travel_Agency_Project.Migrations
                     Duration = table.Column<int>(type: "INTEGER", nullable: false),
                     FlightNumber = table.Column<string>(type: "TEXT", nullable: false),
                     ProductId = table.Column<Guid>(type: "TEXT", nullable: false),
-                    ClientId = table.Column<int>(type: "INTEGER", nullable: false),
+                    ClientId = table.Column<Guid>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
