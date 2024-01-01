@@ -2,29 +2,35 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 import DsForm from './components/DsForm';
 import { useState } from 'react'
+import { gql, useQuery } from '@apollo/client';
 
-function App() {
+const App = () => {
 
   const [name, setName] = useState<string>("")
   const [familyName, setFamilyName] = useState<string>("")
   const [clientInfo, setClientInfo] = useState<any>(null)
   const [error, setError] = useState<boolean>(false)
 
+  const GET_CLIENT = gql`
+  query {
+    dossier(name:AA, familyName:AA) {
+      id,
+      client{name, familyName},
+      product{name, location}
+    }
+  }
+`;
+
+  const { loading, error: queryError, data } = useQuery(GET_CLIENT);
   const getClientInfo = () => {
-    fetch(`https://localhost:7165/GraphQL?name=${name}&familyName=${familyName}`, {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        if (responseJson.status === 200) {
-          setClientInfo(responseJson?.data)
-        } else {
-          setError(true)
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+
+    if (error) {
+      setError(true)
+    } else {
+      console.log("data: ", data);
+
+      setClientInfo(data)
+    }
   }
 
   return (

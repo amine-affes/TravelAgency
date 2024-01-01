@@ -34,6 +34,7 @@ if (app.Environment.IsDevelopment())
     await db.Database.MigrateAsync();
     DataSeeder.SeedData(db);
 }
+app.UseCors("AllowAllOrigins");
 
 app.UseHttpsRedirection();
 
